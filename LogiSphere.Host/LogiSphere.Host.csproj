@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LogiSphere.Application\LogiSphere.Application.csproj" />
+    <ProjectReference Include="..\LogiSphere.Domain\LogiSphere.Domain.csproj" />
+    <ProjectReference Include="..\LogiSphere.Ifrastructure\LogiSphere.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
