@@ -1,2 +1,6 @@
 <Solution>
+  <Project Path="LogiSphere.Application/LogiSphere.Application.csproj" Id="8f86087a-6fc8-4709-a7a2-a54544b29e00" />
+  <Project Path="LogiSphere.Domain/LogiSphere.Domain.csproj" Id="070d64c8-9e2f-4d66-8b3c-a1d343596a69" />
+  <Project Path="LogiSphere.Host/LogiSphere.Host.csproj" Id="ded70c00-55a2-42ef-a513-1990750f7941" />
+  <Project Path="LogiSphere.Ifrastructure/LogiSphere.Infrastructure.csproj" Id="b403815e-e34a-4aea-a40b-489a599bc110" />
 </Solution>
