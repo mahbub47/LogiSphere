@@ -1,4 +1,5 @@
 ﻿using LogiSphere.Application.Interfaces;
+using LogiSphere.Infrastructure.Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogiSphere.Infrastructure.Data.Repositories;

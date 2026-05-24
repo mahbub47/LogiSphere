@@ -1,9 +1,8 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace LogiSphere.Infrastructure.Data;
+namespace LogiSphere.Infrastructure.Data.DbContext;
 
 public class DesignTimeContextFacctory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {

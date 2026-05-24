@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
-namespace LogiSphere.Infrastructure.Data;
+namespace LogiSphere.Infrastructure.Data.Extensions;
 
 public static class ModelBuilderExtensions
 {

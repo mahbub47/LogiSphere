@@ -1,7 +1,7 @@
-﻿
-using LogiSphere.Application.Interfaces;
+﻿using LogiSphere.Application.Interfaces;
+using LogiSphere.Infrastructure.Data.DbContext;
 
-namespace LogiSphere.Infrastructure.Data;
+namespace LogiSphere.Infrastructure.Data.UnitOfWork;
 
 public class UnitOfWork(ApplicationDbContext _context) : IUnitOfWork
 {

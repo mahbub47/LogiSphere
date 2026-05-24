@@ -1,5 +1,6 @@
 ﻿using LogiSphere.Application.Features.Tenants.Interfaces;
 using LogiSphere.Domain.Entities;
+using LogiSphere.Infrastructure.Data.DbContext;
 using LogiSphere.Infrastructure.Data.Models;
 using LogiSphere.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace LogiSphere.Infrastructure.Data;
+namespace LogiSphere.Infrastructure.Data.Provisioners;
 
 public class EnterpriceProvisioner(
     IOptions<IdentityOptions> optionsAccessor,

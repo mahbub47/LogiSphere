@@ -1,11 +1,11 @@
-﻿
-using LogiSphere.Domain.Entities;
+﻿using LogiSphere.Domain.Entities;
+using LogiSphere.Infrastructure.Data.Extensions;
 using LogiSphere.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogiSphere.Infrastructure.Data;
+namespace LogiSphere.Infrastructure.Data.DbContext;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : 
     IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>(options)
