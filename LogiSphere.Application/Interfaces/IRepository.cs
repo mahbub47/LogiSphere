@@ -1,8 +1,8 @@
 ﻿
 namespace LogiSphere.Application.Interfaces;
 
-public interface IRepository<T>
+public interface IRepository<TEntity>
 {
-    public Task AddAsync(T entity);
-    public Task<T?> GetByIdAsync(Guid id);
+    public Task AddAsync(TEntity entity);
+    public Task<TEntity?> GetByIdAsync(Guid id);
 }

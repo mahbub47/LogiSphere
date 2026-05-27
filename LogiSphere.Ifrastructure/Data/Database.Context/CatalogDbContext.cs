@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogiSphere.Infrastructure.Data.DbContext;
+namespace LogiSphere.Infrastructure.Data.Database.Context;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : 
+public class CatalogDbContext(DbContextOptions<CatalogDbContext> options) : 
     IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<Tenant> Tenants { get; set; }
