@@ -4,6 +4,5 @@ namespace LogiSphere.Application.Features.Tenants.Interfaces;
 
 public interface ITenantRegistrationService
 {
-    public Task<TenantRegistrationResult> HandleStandardTenantRegistration(TenantRegistrationRequest request);
-    public Task<TenantRegistrationResult> HandleEnterpriceTenantRegistration(TenantRegistrationRequest request);
+    public Task<TenantRegistrationResult> HandleTenantRegistrationAsync(TenantRegistrationRequest request);
 }

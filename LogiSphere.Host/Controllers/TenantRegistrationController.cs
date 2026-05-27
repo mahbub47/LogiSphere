@@ -26,44 +26,19 @@ public class TenantRegistrationController(ITenantRegistrationService registratio
             Phone = request.Phone,
             Password = request.Password,
         };
+        var result = await registrationService.HandleTenantRegistrationAsync(registration);
 
-
-        if(request.Tier == TenantTier.Enterprice)
+        if (result.IsSuccess)
         {
-            var result = await registrationService.HandleEnterpriceTenantRegistration(registration);
-
-            if (result.IsSuccess)
+            var response = new TenantRegistrationResponseDto
             {
-                var response = new TenantRegistrationResponseDto
-                {
-                    TenantId = result.TenantId,
-                    Message = $"You successfully registered to the LogiSphere. Your Tenant ID is {result.TenantId}"
-                };
+                TenantId = result.TenantId,
+                Message = $"You successfully registered to the LogiSphere. Your Tenant ID is {result.TenantId}"
+            };
 
-                return Created($"api/dashboard/{response.TenantId}", response);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return Created($"api/dashboard/{response.TenantId}", response);
         }
-        else{
-            var result = await registrationService.HandleStandardTenantRegistration(registration);
 
-            if (result.IsSuccess)
-            {
-                var response = new TenantRegistrationResponseDto
-                {
-                    TenantId = result.TenantId,
-                    Message = $"You successfully registered to the LogiSphere. Your Tenant ID is {result.TenantId}"
-                };
-
-                return Created($"api/dashboard/{response.TenantId}", response);
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
+        return BadRequest();
     }
 }
