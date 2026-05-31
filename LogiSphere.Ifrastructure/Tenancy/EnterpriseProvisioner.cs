@@ -1,8 +1,8 @@
-﻿using LogiSphere.Application.Features.Tenants.Interfaces;
+﻿using LogiSphere.Application.Contracts;
 using LogiSphere.Infrastructure.Data.Database.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogiSphere.Infrastructure.Data.Provisioners;
+namespace LogiSphere.Infrastructure.Tenancy;
 
 public class EnterpriseProvisioner() : IEnterpriseProvisioner
 {

@@ -1,6 +1,6 @@
 ﻿using LogiSphere.Domain.Entities;
 using LogiSphere.Infrastructure.Data.Extensions;
-using LogiSphere.Infrastructure.Data.Models;
+using LogiSphere.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +18,12 @@ public class CatalogDbContext(DbContextOptions<CatalogDbContext> options) :
 
         builder.Entity<ApplicationUser>(entity =>
         {
-            entity.HasOne<Tenant>()
-            .WithMany()
-            .HasForeignKey(e => e.TenantId)
-            .OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(u => u.Tenant)
+                .WithMany()
+                .HasForeignKey(u => u.TenantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.Property(e => e.RegisteredAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
         builder.SeedRoles();

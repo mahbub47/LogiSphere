@@ -2,8 +2,8 @@
 using LogiSphere.Host.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using LogiSphere.Application.Features.Tenants.Interfaces;
 using LogiSphere.Domain.Enums;
+using LogiSphere.Application.Features.Tenants;
 
 namespace LogiSphere.Host.Controllers;
 

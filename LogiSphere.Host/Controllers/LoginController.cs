@@ -1,4 +1,4 @@
-﻿using LogiSphere.Application.Features.Authentication.Interfaces;
+﻿using LogiSphere.Application.Features.Authentication;
 using LogiSphere.Application.Features.Authentication.Models;
 using LogiSphere.Host.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,7 @@ namespace LogiSphere.Host.Controllers;
 public class LoginController(IAuthenticationService serivce) : ControllerBase
 {
     [HttpPost("login")]
-    public async Task<ActionResult> LoginFleetManager([FromBody]UserLoginDto request)
+    public async Task<ActionResult> LoginUser([FromBody]UserLoginDto request)
     {
         var authenticationRequest = new AuthenticationRequest
         {

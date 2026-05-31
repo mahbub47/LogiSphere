@@ -1,8 +1,8 @@
-﻿using LogiSphere.Application.Features.Authentication.Interfaces;
-using LogiSphere.Application.Features.Authentication.Models;
+﻿using LogiSphere.Application.Features.Authentication.Models;
 using LogiSphere.Application.Interfaces;
 
 namespace LogiSphere.Application.Features.Authentication;
+
 
 public class AuthenticationService(IIdentityService identityService) : IAuthenticationService
 {

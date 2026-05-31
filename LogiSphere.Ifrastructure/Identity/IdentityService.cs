@@ -1,15 +1,12 @@
 ﻿using LogiSphere.Application.Interfaces;
-using LogiSphere.Domain.Entities;
-using LogiSphere.Infrastructure.Data.Models;
+using LogiSphere.Domain.Enums;
 using LogiSphere.Infrastructure.Interfaces;
-using LogiSphere.Infrastructure.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
+using System.ComponentModel;
 
-namespace LogiSphere.Infrastructure.Data.Services;
+namespace LogiSphere.Infrastructure.Identity;
 
 public class IdentityService(
     IUserStore<ApplicationUser> store,
@@ -77,4 +74,30 @@ public class IdentityService(
         return (true, jwt);
     }
 
+    public async Task<bool> CreateStaffAsync(UserRole role, string fullname, string email, string phone, string password)
+    {
+        var user = new ApplicationUser
+        {
+            FullName = fullname,
+            Email = email,
+            PhoneNumber = phone,
+            UserName = email
+        };
+
+        var userCreation = await CreateAsync(user, password);
+
+        if (!userCreation.Succeeded) throw new Exception("User Creation failed");
+
+        var userRoleAssign = role switch
+        {
+            UserRole.FleetManager => await AddToRoleAsync(user, "FleetManager"),
+            UserRole.Dispatcher => await AddToRoleAsync(user, "Dispatcher"),
+            UserRole.Driver => await AddToRoleAsync(user, "Driver"),
+            _ => throw new InvalidEnumArgumentException()
+        };
+
+        if (!userRoleAssign.Succeeded) throw new Exception("User role assign failed");
+
+        return userRoleAssign.Succeeded && userCreation.Succeeded;
+    }
 }
