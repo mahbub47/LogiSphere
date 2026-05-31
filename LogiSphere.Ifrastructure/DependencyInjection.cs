@@ -1,12 +1,12 @@
-﻿using LogiSphere.Application.Features.Tenants.Interfaces;
+﻿using LogiSphere.Application.Contracts;
 using LogiSphere.Application.Interfaces;
 using LogiSphere.Infrastructure.Data.Database.Context;
-using LogiSphere.Infrastructure.Data.Models;
-using LogiSphere.Infrastructure.Data.Provisioners;
+using LogiSphere.Infrastructure.Data.Interceptors;
 using LogiSphere.Infrastructure.Data.Repositories;
-using LogiSphere.Infrastructure.Data.Services;
+using LogiSphere.Infrastructure.Identity;
 using LogiSphere.Infrastructure.Interfaces;
 using LogiSphere.Infrastructure.Jwt;
+using LogiSphere.Infrastructure.Tenancy;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,14 +21,28 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
-        services.AddDbContext<CatalogDbContext>(options =>
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<SetTenantIdInterceptor>();
+
+        services.AddScoped<ITenantResolver, TenantResolver>();
+
+        services.AddDbContext<CatalogDbContext>((serviceProvider, options) =>
         {
             options.UseNpgsql(config.GetConnectionString("catalogDbConnectionString"));
+
+            var interceptor = serviceProvider.GetRequiredService<SetTenantIdInterceptor>();
+            options.AddInterceptors(interceptor);
         });
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            options.UseNpgsql(config.GetConnectionString("sharedDbConnectionString"));
+            var tenantResolver = serviceProvider.GetRequiredService<ITenantResolver>();
+            var connectionstring = tenantResolver.GetConnectionString();
+            options.UseNpgsql(config.GetConnectionString(connectionstring!));
+
+            var interceptor = serviceProvider.GetRequiredService<SetTenantIdInterceptor>();
+            options.AddInterceptors(interceptor);
         });
 
         services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()

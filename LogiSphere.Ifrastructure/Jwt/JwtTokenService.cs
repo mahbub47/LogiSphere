@@ -1,5 +1,5 @@
 ﻿using LogiSphere.Domain.Entities;
-using LogiSphere.Infrastructure.Data.Models;
+using LogiSphere.Infrastructure.Identity;
 using LogiSphere.Infrastructure.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,15 +17,13 @@ public class JwtTokenService(JwtSettings settings) : IJwtTokenService
 
         var claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim("full_name", user.FullName),
-            new Claim(ClaimTypes.Email, user.Email!),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
             new Claim(ClaimTypes.Role, role),
+            new Claim("full_name", user.FullName),
 
             new Claim("tenant_id", tenant.Id.ToString()),
             new Claim("tenant_slug", tenant.Slug),
-
-            new Claim(ClaimTypes.Expiration, DateTime.UtcNow.AddDays(settings.ExpiryInDays).ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor

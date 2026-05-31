@@ -1,6 +1,6 @@
 ﻿using LogiSphere.Application.Features.Authentication.Models;
 
-namespace LogiSphere.Application.Features.Authentication.Interfaces;
+namespace LogiSphere.Application.Features.Authentication;
 
 public interface IAuthenticationService
 {

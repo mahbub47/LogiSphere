@@ -1,6 +1,6 @@
 ﻿using LogiSphere.Application.Features.Tenants.Models;
 
-namespace LogiSphere.Application.Features.Tenants.Interfaces;
+namespace LogiSphere.Application.Features.Tenants;
 
 public interface ITenantRegistrationService
 {

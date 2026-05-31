@@ -1,6 +1,6 @@
 ﻿
 
-using LogiSphere.Application.Features.Tenants.Interfaces;
+using LogiSphere.Application.Contracts;
 using LogiSphere.Application.Features.Tenants.Models;
 using LogiSphere.Application.Interfaces;
 using LogiSphere.Domain.Entities;
@@ -28,7 +28,7 @@ public class TenantRegistrationService(
                 Name = request.OrganizationName,
                 Slug = request.Slug,
                 Tier = request.Tier,
-                ConnectionString = connectionString
+                ConnectionString = request.Tier == TenantTier.Enterprice ? connectionString : null,
             };
 
             await catalogUnitOfWork.Tenants.AddAsync(tenant);

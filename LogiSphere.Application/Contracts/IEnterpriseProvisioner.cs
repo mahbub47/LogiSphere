@@ -1,6 +1,6 @@
 ﻿using LogiSphere.Domain.Entities;
 
-namespace LogiSphere.Application.Features.Tenants.Interfaces;
+namespace LogiSphere.Application.Contracts;
 
 public interface IEnterpriseProvisioner
 {

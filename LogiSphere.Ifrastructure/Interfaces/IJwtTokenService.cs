@@ -1,5 +1,5 @@
 ﻿using LogiSphere.Domain.Entities;
-using LogiSphere.Infrastructure.Data.Models;
+using LogiSphere.Infrastructure.Identity;
 namespace LogiSphere.Infrastructure.Interfaces;
 
 public interface IJwtTokenService
