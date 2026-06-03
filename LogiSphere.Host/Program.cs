@@ -14,13 +14,12 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddApplication();
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add(new AuthorizeFilter());
-});
+builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi((options) => { options.AddDocumentTransformer<BearerSecuritySchemeTransformer>(); });
+builder.Services.AddOpenApi((options) => {
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+});
 
 var app = builder.Build();
 

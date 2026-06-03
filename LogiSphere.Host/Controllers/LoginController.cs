@@ -12,7 +12,7 @@ namespace LogiSphere.Host.Controllers;
 public class LoginController(IAuthenticationService serivce) : ControllerBase
 {
     [HttpPost("login")]
-    public async Task<ActionResult> LoginUser([FromBody]UserLoginDto request)
+    public async Task<ActionResult> LoginUser([FromBody] UserLoginDto request)
     {
         var authenticationRequest = new AuthenticationRequest
         {
