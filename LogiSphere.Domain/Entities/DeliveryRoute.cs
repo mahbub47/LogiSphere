@@ -10,4 +10,7 @@ public class DeliveryRoute : ITenantable
     public Guid VehicleId { get; set; }
     public Guid DriverId { get; set; }
     public RouteStatus Status { get; set; }
+
+    public Vehicle? Vehicle { get; set; }
+    public IEnumerable<DeliveryStop>? DeliveryStops { get; set; } = Enumerable.Empty<DeliveryStop>();
 }

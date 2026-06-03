@@ -50,7 +50,7 @@ internal sealed class BearerSecuritySchemeTransformer(
                 continue;
 
             // Target the specific operation block matching the routing verb
-            var operationEntry = pathItem.Operations.FirstOrDefault(o => o.Key.ToString().Equals(httpMethod, StringComparison.OrdinalIgnoreCase));
+            var operationEntry = pathItem.Operations!.FirstOrDefault(o => o.Key.ToString().Equals(httpMethod, StringComparison.OrdinalIgnoreCase));
             if (operationEntry.Value == null)
                 continue;
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LogiSphere.Infrastructure.Interfaces;
+using LogiSphere.Infrastructure.Tenancy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
@@ -17,6 +19,6 @@ public class ApplicationDesignTimeContextFactory : IDesignTimeDbContextFactory<A
         var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
         optionBuilder.UseNpgsql(config.GetConnectionString("sharedDbConnectionString"));
 
-        return new ApplicationDbContext(optionBuilder.Options);
+        return new ApplicationDbContext(optionBuilder.Options, null!);
     }
 }

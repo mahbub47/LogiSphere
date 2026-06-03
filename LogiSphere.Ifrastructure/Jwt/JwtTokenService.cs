@@ -1,4 +1,5 @@
 ﻿using LogiSphere.Domain.Entities;
+using LogiSphere.Domain.Enums;
 using LogiSphere.Infrastructure.Identity;
 using LogiSphere.Infrastructure.Interfaces;
 using Microsoft.IdentityModel.Tokens;
@@ -24,6 +25,7 @@ public class JwtTokenService(JwtSettings settings) : IJwtTokenService
 
             new Claim("tenant_id", tenant.Id.ToString()),
             new Claim("tenant_slug", tenant.Slug),
+            new Claim("tenant_tier", tenant.Tier.ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor

@@ -5,4 +5,5 @@ public interface IRepository<TEntity>
 {
     public Task AddAsync(TEntity entity);
     public Task<TEntity?> GetByIdAsync(Guid id);
+    public Task<List<TEntity>> GetAllAsync();
 }

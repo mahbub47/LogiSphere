@@ -19,7 +19,11 @@ public class Repository<TEntity, TContext> : IRepository<TEntity>
     public async Task AddAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<TEntity>> GetAllAsync()
+    {
+        return await _dbSet.ToListAsync();
     }
 
     public async Task<TEntity?> GetByIdAsync(Guid id)

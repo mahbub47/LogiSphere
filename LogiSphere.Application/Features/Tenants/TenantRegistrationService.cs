@@ -28,7 +28,7 @@ public class TenantRegistrationService(
                 Name = request.OrganizationName,
                 Slug = request.Slug,
                 Tier = request.Tier,
-                ConnectionString = request.Tier == TenantTier.Enterprice ? connectionString : null,
+                ConnectionString = request.Tier == TenantTier.Enterprise ? connectionString : null,
             };
 
             await catalogUnitOfWork.Tenants.AddAsync(tenant);
@@ -48,7 +48,7 @@ public class TenantRegistrationService(
                 return TenantRegistrationResult.Failed("Admin creation failed due to some issue");
             }
 
-            if(request.Tier == TenantTier.Enterprice)
+            if(request.Tier == TenantTier.Enterprise)
             {
                 var provisionResult = await enterpriceProvisioner.ProvisionTenantDatabaseAsync(
                 connectionString);

@@ -37,10 +37,6 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            var tenantResolver = serviceProvider.GetRequiredService<ITenantResolver>();
-            var connectionstring = tenantResolver.GetConnectionString();
-            options.UseNpgsql(config.GetConnectionString(connectionstring!));
-
             var interceptor = serviceProvider.GetRequiredService<SetTenantIdInterceptor>();
             options.AddInterceptors(interceptor);
         });
@@ -52,6 +48,8 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenService, JwtTokenService>();
 
         services.AddScoped<ICatalogUnitOfWork, CatalogUnitOfWork>();
+
+        services.AddScoped<IApplicationUnitOfWork, ApplicationUnitOfWork>();
 
         services.AddScoped<IIdentityService, IdentityService>();
 

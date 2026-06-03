@@ -1,10 +1,11 @@
 ﻿using LogiSphere.Application.Contracts;
 using LogiSphere.Infrastructure.Data.Database.Context;
+using LogiSphere.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogiSphere.Infrastructure.Tenancy;
 
-public class EnterpriseProvisioner() : IEnterpriseProvisioner
+public class EnterpriseProvisioner(ITenantResolver tenantResolver) : IEnterpriseProvisioner
 {
     public async Task<bool> ProvisionTenantDatabaseAsync(string dbConnectionString)
     {
@@ -13,7 +14,7 @@ public class EnterpriseProvisioner() : IEnterpriseProvisioner
             var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionBuilder.UseNpgsql(dbConnectionString);
 
-            using var tenantDbContext = new ApplicationDbContext(optionBuilder.Options)
+            using var tenantDbContext = new ApplicationDbContext(optionBuilder.Options, tenantResolver)
                 ?? throw new Exception("Database context creation failed");
 
             await tenantDbContext.Database.MigrateAsync();
