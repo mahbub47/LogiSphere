@@ -1,6 +1,7 @@
-﻿using LogiSphere.Application.Features.Vehicles;
-using LogiSphere.Application.Features.Vehicles.Models;
+﻿using LogiSphere.Application.Features.Vehicles.Commands.RegisterVehicle;
+using LogiSphere.Application.Features.Vehicles.Queries.GetAllVehicle;
 using LogiSphere.Host.Dtos;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,22 +10,22 @@ namespace LogiSphere.Host.Controllers;
 [ApiController]
 [Route("api/fleet")]
 [Authorize(Roles = "FleetManager")]
-public class FleetController(IVehicleService service) : ControllerBase
+public class FleetController(ISender _sender) : ControllerBase
 {
     [HttpPost("register-vehicle")]
     public async Task<ActionResult> RegisterVehicle(RegisterVehicleDto request)
     {
-        var registrationRequest = new VehicleRegistrationRequest
+        var registrationRequest = new RegisterVehicleCommand
         {
             PlateNumber = request.PlateNumber,
             Model = request.Model,
             MaxWeightCapacityKg = request.MaxWeightCapacityKg,
         };
 
-        var result = await service.RegisterVehicleAsync(registrationRequest);
+        var result = await _sender.Send(registrationRequest);
         if(result.IsSuccess)
         {
-            return Ok(new { Message = "Vehicle registered successfully", VehicleId = result.VehicleId });
+            return Ok(new { Id = result.Value });
         }
         else
         {
@@ -35,11 +36,15 @@ public class FleetController(IVehicleService service) : ControllerBase
     [HttpGet("vehicles")]
     public async Task<ActionResult> GetAllVehicles()
     {
-        var vehicles = await service.GetAllVehicleAsync();
-        if(!vehicles.Any())
+        var result = await _sender.Send(new GetAllVehicleQuery());
+        if(result.IsFailure)
         {
-            return NotFound(new { Message = "No vehicles found" });
+            return NotFound(new { Message = result.Error.message });
         }
-        return Ok(vehicles);
+        if (!result.Value.Any())
+        {
+            return Ok(new { Message = "No vehicles found." });
+        }
+        return Ok(result.Value);
     }
 }
