@@ -1,18 +1,18 @@
 ﻿using LogiSphere.Application.Contracts;
-using LogiSphere.Application.Features.Tenants.Models;
 using LogiSphere.Application.Interfaces;
+using LogiSphere.Application.Models;
 using LogiSphere.Domain.Entities;
 using LogiSphere.Domain.Enums;
+using MediatR;
 
-namespace LogiSphere.Application.Features.Tenants;
+namespace LogiSphere.Application.Features.Tenants.Commands.RegisterTenant;
 
-public class TenantRegistrationService(
+internal class RegisterTenantCommandHandler(
     ICatalogUnitOfWork catalogUnitOfWork,
     IIdentityService identityService,
-    IEnterpriseProvisioner enterpriceProvisioner) : ITenantRegistrationService
-
+    IEnterpriseProvisioner enterpriceProvisioner) : IRequestHandler<RegisterTenantCommand, Result<Guid>>
 {
-    public async Task<TenantRegistrationResult> HandleTenantRegistrationAsync(TenantRegistrationRequest request)
+    public async Task<Result<Guid>> Handle(RegisterTenantCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -43,10 +43,10 @@ public class TenantRegistrationService(
             if (result == Guid.Empty)
             {
                 await catalogUnitOfWork.RollbackTransactionAsync();
-                return TenantRegistrationResult.Failed("Admin creation failed due to some issue");
+                return Result<Guid>.Failed(new Error("400", "Admin creation failed due to some issue"));
             }
 
-            if(request.Tier == TenantTier.Enterprise)
+            if (request.Tier == TenantTier.Enterprise)
             {
                 var provisionResult = await enterpriceProvisioner.ProvisionTenantDatabaseAsync(
                 connectionString);
@@ -54,17 +54,17 @@ public class TenantRegistrationService(
                 if (!provisionResult)
                 {
                     await catalogUnitOfWork.RollbackTransactionAsync();
-                    return TenantRegistrationResult.Failed("Database provision for enterprice level organization failed!");
+                    return Result<Guid>.Failed(new Error("500", "Database provision for enterprise level organization failed!"));
                 }
             }
 
             await catalogUnitOfWork.CommitTransactionAsync();
-            return TenantRegistrationResult.Succeed(tenant.Id);
+            return Result<Guid>.Succeed(tenant.Id);
         }
         catch
         {
             await catalogUnitOfWork.RollbackTransactionAsync();
-            return TenantRegistrationResult.Failed("Database provision for enterprice level organization failed!");
+            return Result<Guid>.Failed(new Error("500", "Database provision for enterprise level organization failed!"));
         }
     }
 }

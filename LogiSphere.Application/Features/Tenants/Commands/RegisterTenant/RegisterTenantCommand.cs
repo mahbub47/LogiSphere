@@ -1,9 +1,10 @@
-﻿
+﻿using LogiSphere.Application.Models;
 using LogiSphere.Domain.Enums;
+using MediatR;
 
-namespace LogiSphere.Application.Features.Tenants.Models;
+namespace LogiSphere.Application.Features.Tenants.Commands.RegisterTenant;
 
-public class TenantRegistrationRequest
+public class RegisterTenantCommand : IRequest<Result<Guid>>
 {
     public string OrganizationName { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
