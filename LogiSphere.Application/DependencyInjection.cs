@@ -1,5 +1,4 @@
-﻿using LogiSphere.Application.Features.Authentication;
-using LogiSphere.Application.Features.Staff;
+﻿using LogiSphere.Application.Features.Staff;
 using LogiSphere.Application.Features.Tenants;
 using LogiSphere.Application.Features.Vehicles;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +13,12 @@ public static class DependencyInjection
 
         services.AddScoped<IStaffRegistrationService, StaffRegistrationService>();
 
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
-
         services.AddScoped<IVehicleService, VehicleService>();
+
+        services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly);
+        });
 
         return services;
     }
