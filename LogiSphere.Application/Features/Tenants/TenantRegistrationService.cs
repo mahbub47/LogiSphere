@@ -1,6 +1,4 @@
-﻿
-
-using LogiSphere.Application.Contracts;
+﻿using LogiSphere.Application.Contracts;
 using LogiSphere.Application.Features.Tenants.Models;
 using LogiSphere.Application.Interfaces;
 using LogiSphere.Domain.Entities;
@@ -42,7 +40,7 @@ public class TenantRegistrationService(
                 request.Phone,
                 request.Password);
 
-            if (!result)
+            if (result == Guid.Empty)
             {
                 await catalogUnitOfWork.RollbackTransactionAsync();
                 return TenantRegistrationResult.Failed("Admin creation failed due to some issue");

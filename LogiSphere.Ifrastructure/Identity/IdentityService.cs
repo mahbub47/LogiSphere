@@ -31,7 +31,7 @@ public class IdentityService(
         services,
         logger), IIdentityService
 {
-    public async Task<bool> CreateTenantAdminAsync(Guid tenantId, string fullname, string email, string phone, string password)
+    public async Task<Guid> CreateTenantAdminAsync(Guid tenantId, string fullname, string email, string phone, string password)
     {
         var user = new ApplicationUser
         {
@@ -50,7 +50,7 @@ public class IdentityService(
 
         if (!userRoleAssign.Succeeded) throw new Exception("User role assign failed");
 
-        return userRoleAssign.Succeeded && userCreation.Succeeded;
+        return user.Id;
     }
 
     public async Task<(bool, string)> AuthenticateAsync(string email, string password)
@@ -74,7 +74,7 @@ public class IdentityService(
         return (true, jwt);
     }
 
-    public async Task<bool> CreateStaffAsync(UserRole role, string fullname, string email, string phone, string password)
+    public async Task<Guid> CreateStaffAsync(UserRole role, string fullname, string email, string phone, string password)
     {
         var user = new ApplicationUser
         {
@@ -98,6 +98,6 @@ public class IdentityService(
 
         if (!userRoleAssign.Succeeded) throw new Exception("User role assign failed");
 
-        return userRoleAssign.Succeeded && userCreation.Succeeded;
+        return user.Id;
     }
 }

@@ -11,8 +11,6 @@ public static class DependencyInjection
     {
         services.AddScoped<ITenantRegistrationService, TenantRegistrationService>();
 
-        services.AddScoped<IStaffRegistrationService, StaffRegistrationService>();
-
         services.AddScoped<IVehicleService, VehicleService>();
 
         services.AddMediatR(configuration =>
