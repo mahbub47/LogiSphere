@@ -34,7 +34,7 @@ public class Result<TValue> : Result
     public TValue Value => IsSuccess ? _value! : throw new InvalidOperationException("Cannot access value of a failed result");
 
     public static Result<TValue> Succeed(TValue value) => new(value, true, Error.None);
-    public static Result<TValue> Failed(Error error) => new(default, false, error);
+    public static new Result<TValue> Failed(Error error) => new(default, false, error);
 }
 
 public record Error(string Code, string message)
