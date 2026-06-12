@@ -3,24 +3,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LogiSphere.Infrastructure.Data.Repositories;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<TEntity, TContext> : IRepository<TEntity> 
+    where TEntity : class 
+    where TContext : DbContext
 {
-    private readonly ApplicationDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    private readonly TContext _context;
+    private readonly DbSet<TEntity> _dbSet;
 
-    public Repository(ApplicationDbContext context)
+    public Repository(TContext context)
     {
         _context = context;
-        _dbSet = context.Set<T>();
+        _dbSet = context.Set<TEntity>();
     }
 
-    public async Task AddAsync(T entity)
+    public async Task AddAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
     }
 
-    public async Task<T?> GetByIdAsync(Guid id)
+    public async Task<List<TEntity>> GetAllAsync()
+    {
+        return await _dbSet.ToListAsync();
+    }
+
+    public async Task<TEntity?> GetByIdAsync(Guid id)
     {
         return await _dbSet.FindAsync(id);
     }
