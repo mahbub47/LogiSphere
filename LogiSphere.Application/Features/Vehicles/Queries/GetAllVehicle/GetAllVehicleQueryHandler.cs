@@ -1,11 +1,12 @@
 ﻿using LogiSphere.Application.Contracts;
+using LogiSphere.Application.Core.Abstraction;
 using LogiSphere.Application.Core.Result;
 using LogiSphere.Application.DTOs;
 using MediatR;
 
 namespace LogiSphere.Application.Features.Vehicles.Queries.GetAllVehicle;
 
-internal class GetAllVehicleQueryHandler(IApplicationUnitOfWork unitOfWork) : IRequestHandler<GetAllVehicleQuery, Result<IEnumerable<VehicleResponseDto>>>
+internal class GetAllVehicleQueryHandler(IApplicationUnitOfWork unitOfWork) : IQueryHandler<GetAllVehicleQuery, Result<IEnumerable<VehicleResponseDto>>>
 {
     public async Task<Result<IEnumerable<VehicleResponseDto>>> Handle(GetAllVehicleQuery request, CancellationToken cancellationToken)
     {

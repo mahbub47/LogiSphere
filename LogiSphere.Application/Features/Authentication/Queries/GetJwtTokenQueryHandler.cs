@@ -1,10 +1,10 @@
-﻿using LogiSphere.Application.Core.Result;
+﻿using LogiSphere.Application.Core.Abstraction;
+using LogiSphere.Application.Core.Result;
 using LogiSphere.Application.Interfaces;
-using MediatR;
 
 namespace LogiSphere.Application.Features.Authentication.Queries;
 
-internal class GetJwtTokenQueryHandler(IIdentityService identityService) : IRequestHandler<GetJwtTokenQuery, Result<string>>
+internal class GetJwtTokenQueryHandler(IIdentityService identityService) : IQueryHandler<GetJwtTokenQuery, Result<string>>
 {
     public async Task<Result<string>> Handle(GetJwtTokenQuery request, CancellationToken cancellationToken)
     {
