@@ -1,8 +1,7 @@
 ﻿using LogiSphere.Application.Contracts;
 using LogiSphere.Application.Core.Abstraction;
-using LogiSphere.Application.Core.Result;
+using LogiSphere.Application.Core.Results;
 using LogiSphere.Domain.Entities;
-using MediatR;
 
 namespace LogiSphere.Application.Features.Vehicles.Commands.RegisterVehicle;
 

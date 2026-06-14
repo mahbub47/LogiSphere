@@ -1,5 +1,5 @@
 ﻿using LogiSphere.Application.Core.Errors;
-using LogiSphere.Application.Core.Result;
+using LogiSphere.Application.Core.Results;
 using LogiSphere.Application.Features.Authentication;
 using LogiSphere.Application.Features.Staff;
 using LogiSphere.Application.Interfaces;
