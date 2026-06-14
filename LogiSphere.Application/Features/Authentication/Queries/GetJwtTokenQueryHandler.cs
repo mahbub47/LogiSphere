@@ -1,5 +1,5 @@
-﻿using LogiSphere.Application.Interfaces;
-using LogiSphere.Application.Models;
+﻿using LogiSphere.Application.Core.Result;
+using LogiSphere.Application.Interfaces;
 using MediatR;
 
 namespace LogiSphere.Application.Features.Authentication.Queries;
@@ -8,8 +8,6 @@ internal class GetJwtTokenQueryHandler(IIdentityService identityService) : IRequ
 {
     public async Task<Result<string>> Handle(GetJwtTokenQuery request, CancellationToken cancellationToken)
     {
-        (var isAuthenticated, var token) = await identityService.AuthenticateAsync(request.Email, request.Password);
-        if (!isAuthenticated) return Result<string>.Failed(new Error("401", "Invalid credentials"));
-        return Result<string>.Succeed(token);
+        return await identityService.AuthenticateAsync(request.Email, request.Password);
     }
 }

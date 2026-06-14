@@ -1,4 +1,8 @@
-﻿using LogiSphere.Application.Interfaces;
+﻿using LogiSphere.Application.Core.Errors;
+using LogiSphere.Application.Core.Result;
+using LogiSphere.Application.Features.Authentication;
+using LogiSphere.Application.Features.Staff;
+using LogiSphere.Application.Interfaces;
 using LogiSphere.Domain.Enums;
 using LogiSphere.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +35,7 @@ public class IdentityService(
         services,
         logger), IIdentityService
 {
-    public async Task<Guid> CreateTenantAdminAsync(Guid tenantId, string fullname, string email, string phone, string password)
+    public async Task<Result<Guid>> CreateTenantAdminAsync(Guid tenantId, string fullname, string email, string phone, string password)
     {
         var user = new ApplicationUser
         {
@@ -44,37 +48,37 @@ public class IdentityService(
 
         var userCreation = await CreateAsync(user, password);
 
-        if (!userCreation.Succeeded) throw new Exception("User Creation failed");
+        if (!userCreation.Succeeded) return Result<Guid>.Failure(UserErrors.UserCreationFailed);
 
         var userRoleAssign = await AddToRoleAsync(user, "FleetManager");
 
-        if (!userRoleAssign.Succeeded) throw new Exception("User role assign failed");
+        if (!userRoleAssign.Succeeded) return Result<Guid>.Failure(UserErrors.UserCreationFailed);
 
-        return user.Id;
+        return Result<Guid>.Success(user.Id);
     }
 
-    public async Task<(bool, string)> AuthenticateAsync(string email, string password)
+    public async Task<Result<string>> AuthenticateAsync(string email, string password)
     {
         var user = await FindByEmailAsync(email);
-        if (user == null) return (false, string.Empty);
+        if (user == null) return Result<string>.Failure(AuthenticationnErrors.InvalidEmail);
 
         var isPasswordValid = await ValidatePasswordAsync(user, password);
-        if(!isPasswordValid.Succeeded) return (false, string.Empty);
+        if(!isPasswordValid.Succeeded) return Result<string>.Failure(AuthenticationnErrors.InvalidPassword);
 
         var roles = await GetRolesAsync(user);
-        if(roles.Count == 0) return (false, string.Empty);
+        if(roles.Count == 0) return Result<string>.Failure(AuthenticationnErrors.InvalidCredentials);
         string userRole = roles.FirstOrDefault()!;
 
         var tenant = await unitOfwork.Tenants.GetByIdAsync(user.TenantId);
-        if(tenant == null) return (false, string.Empty);
+        if(tenant == null) return Result<string>.Failure(AuthenticationnErrors.InvalidCredentials);
 
         string jwt = tokenService.GenerateToken(user, tenant, userRole);
-        if(jwt  == null) return (false, string.Empty);
+        if(jwt  == null) return Result<string>.Failure(AuthenticationnErrors.InvalidCredentials);
 
-        return (true, jwt);
+        return Result<string>.Success(jwt);
     }
 
-    public async Task<Guid> CreateStaffAsync(UserRole role, string fullname, string email, string phone, string password)
+    public async Task<Result<Guid>> CreateStaffAsync(UserRole role, string fullname, string email, string phone, string password)
     {
         var user = new ApplicationUser
         {
@@ -86,7 +90,7 @@ public class IdentityService(
 
         var userCreation = await CreateAsync(user, password);
 
-        if (!userCreation.Succeeded) throw new Exception("User Creation failed");
+        if (!userCreation.Succeeded) return Result<Guid>.Failure(StaffErrors.StaffCreationFailed);
 
         var userRoleAssign = role switch
         {
@@ -96,8 +100,8 @@ public class IdentityService(
             _ => throw new InvalidEnumArgumentException()
         };
 
-        if (!userRoleAssign.Succeeded) throw new Exception("User role assign failed");
+        if (!userRoleAssign.Succeeded) return Result<Guid>.Failure(StaffErrors.StaffCreationFailed);
 
-        return user.Id;
+        return Result<Guid>.Success(user.Id);
     }
 }

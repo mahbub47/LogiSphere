@@ -1,4 +1,4 @@
-﻿using LogiSphere.Application.Models;
+﻿using LogiSphere.Application.Core.Result;
 using MediatR;
 
 namespace LogiSphere.Application.Features.Authentication.Queries;

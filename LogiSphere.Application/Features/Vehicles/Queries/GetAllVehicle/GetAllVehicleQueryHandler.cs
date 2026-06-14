@@ -1,6 +1,6 @@
 ﻿using LogiSphere.Application.Contracts;
-using LogiSphere.Application.Features.Vehicles.Models;
-using LogiSphere.Application.Models;
+using LogiSphere.Application.Core.Result;
+using LogiSphere.Application.DTOs;
 using MediatR;
 
 namespace LogiSphere.Application.Features.Vehicles.Queries.GetAllVehicle;
@@ -11,6 +11,10 @@ internal class GetAllVehicleQueryHandler(IApplicationUnitOfWork unitOfWork) : IR
     {
         var vehicles = new List<VehicleResponseDto>();
         var vehicleEntities = await unitOfWork.Vehicles.GetAllAsync();
+        if(!vehicleEntities.Any())
+        {
+            return Result<IEnumerable<VehicleResponseDto>>.Failure(VehicleErrors.VehicleNotFound);
+        }
         foreach (var entity in vehicleEntities)
         {
             vehicles.Add(new VehicleResponseDto
@@ -21,6 +25,6 @@ internal class GetAllVehicleQueryHandler(IApplicationUnitOfWork unitOfWork) : IR
                 MaxWeightCapacityKg = entity.MaxWeightCapacityKg
             });
         }
-        return Result<IEnumerable<VehicleResponseDto>>.Succeed(vehicles);
+        return Result<IEnumerable<VehicleResponseDto>>.Success(vehicles);
     }
 }

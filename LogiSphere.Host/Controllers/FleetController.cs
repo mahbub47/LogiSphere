@@ -39,11 +39,7 @@ public class FleetController(ISender _sender) : ControllerBase
         var result = await _sender.Send(new GetAllVehicleQuery());
         if(result.IsFailure)
         {
-            return NotFound(new { Message = result.Error.message });
-        }
-        if (!result.Value.Any())
-        {
-            return Ok(new { Message = "No vehicles found." });
+            return NotFound(new { Message = result.Error.Description });
         }
         return Ok(result.Value);
     }
