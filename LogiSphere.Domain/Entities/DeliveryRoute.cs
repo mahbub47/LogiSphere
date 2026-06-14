@@ -12,5 +12,5 @@ public class DeliveryRoute : ITenantable
     public RouteStatus Status { get; set; }
 
     public Vehicle? Vehicle { get; set; }
-    public IEnumerable<DeliveryStop>? DeliveryStops { get; set; } = Enumerable.Empty<DeliveryStop>();
+    public ICollection<DeliveryStop>? DeliveryStops { get; set; } = new List<DeliveryStop>();
 }
