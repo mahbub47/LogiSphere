@@ -1,6 +1,7 @@
 ﻿using LogiSphere.Application.Contracts;
+using LogiSphere.Application.Core.Errors;
+using LogiSphere.Application.Core.Result;
 using LogiSphere.Application.Interfaces;
-using LogiSphere.Application.Models;
 using LogiSphere.Domain.Entities;
 using LogiSphere.Domain.Enums;
 using MediatR;
@@ -40,10 +41,10 @@ internal class RegisterTenantCommandHandler(
                 request.Phone,
                 request.Password);
 
-            if (result == Guid.Empty)
+            if (result.IsFailure)
             {
                 await catalogUnitOfWork.RollbackTransactionAsync();
-                return Result<Guid>.Failed(new Error("400", "Admin creation failed due to some issue"));
+                return Result<Guid>.Failure(UserErrors.UserCreationFailed);
             }
 
             if (request.Tier == TenantTier.Enterprise)
@@ -54,17 +55,17 @@ internal class RegisterTenantCommandHandler(
                 if (!provisionResult)
                 {
                     await catalogUnitOfWork.RollbackTransactionAsync();
-                    return Result<Guid>.Failed(new Error("500", "Database provision for enterprise level organization failed!"));
+                    return Result<Guid>.Failure(TenantErrors.TenantDatabaseCreationFailed);
                 }
             }
 
             await catalogUnitOfWork.CommitTransactionAsync();
-            return Result<Guid>.Succeed(tenant.Id);
+            return Result<Guid>.Success(tenant.Id);
         }
         catch
         {
             await catalogUnitOfWork.RollbackTransactionAsync();
-            return Result<Guid>.Failed(new Error("500", "Database provision for enterprise level organization failed!"));
+            return Result<Guid>.Failure(TenantErrors.TenantCreationFailed);
         }
     }
 }

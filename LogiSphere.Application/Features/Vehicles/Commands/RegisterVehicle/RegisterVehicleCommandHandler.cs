@@ -1,5 +1,5 @@
 ﻿using LogiSphere.Application.Contracts;
-using LogiSphere.Application.Models;
+using LogiSphere.Application.Core.Result;
 using LogiSphere.Domain.Entities;
 using MediatR;
 
@@ -23,9 +23,9 @@ internal class RegisterVehicleCommandHandler(IApplicationUnitOfWork unitOfWork) 
         }
         catch
         {
-            return Result<Guid>.Failed(new Error("400", "Failed to register vehicle. Please try again."));
+            return Result<Guid>.Failure(VehicleErrors.VehicleRegistrationFailed);
         }
 
-        return Result<Guid>.Succeed(vehicle.Id);
+        return Result<Guid>.Success(vehicle.Id);
     }
 }
