@@ -1,10 +1,10 @@
-﻿using LogiSphere.Application.Core.Result;
+﻿using LogiSphere.Application.Core.Abstraction;
+using LogiSphere.Application.Core.Result;
 using LogiSphere.Domain.Enums;
-using MediatR;
 
 namespace LogiSphere.Application.Features.Tenants.Commands.RegisterTenant;
 
-public class RegisterTenantCommand : IRequest<Result<Guid>>
+public class RegisterTenantCommand : ICommand<Result<Guid>>
 {
     public string OrganizationName { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
