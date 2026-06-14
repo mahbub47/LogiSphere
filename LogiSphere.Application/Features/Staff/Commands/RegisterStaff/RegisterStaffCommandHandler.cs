@@ -1,10 +1,10 @@
-﻿using LogiSphere.Application.Core.Result;
+﻿using LogiSphere.Application.Core.Abstraction;
+using LogiSphere.Application.Core.Result;
 using LogiSphere.Application.Interfaces;
-using MediatR;
 
 namespace LogiSphere.Application.Features.Staff.Commands.RegisterStaff;
 
-internal class RegisterStaffCommandHandler(IIdentityService identityService) : IRequestHandler<RegisterStaffCommand, Result<Guid>>
+internal class RegisterStaffCommandHandler(IIdentityService identityService) : ICommandHandler<RegisterStaffCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(RegisterStaffCommand request, CancellationToken cancellationToken)
     {

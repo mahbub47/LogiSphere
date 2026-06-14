@@ -1,17 +1,17 @@
 ﻿using LogiSphere.Application.Contracts;
+using LogiSphere.Application.Core.Abstraction;
 using LogiSphere.Application.Core.Errors;
 using LogiSphere.Application.Core.Result;
 using LogiSphere.Application.Interfaces;
 using LogiSphere.Domain.Entities;
 using LogiSphere.Domain.Enums;
-using MediatR;
 
 namespace LogiSphere.Application.Features.Tenants.Commands.RegisterTenant;
 
 internal class RegisterTenantCommandHandler(
     ICatalogUnitOfWork catalogUnitOfWork,
     IIdentityService identityService,
-    IEnterpriseProvisioner enterpriceProvisioner) : IRequestHandler<RegisterTenantCommand, Result<Guid>>
+    IEnterpriseProvisioner enterpriceProvisioner) : ICommandHandler<RegisterTenantCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(RegisterTenantCommand request, CancellationToken cancellationToken)
     {
