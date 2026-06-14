@@ -1,4 +1,4 @@
-﻿namespace LogiSphere.Application.Features.Vehicles.Models;
+﻿namespace LogiSphere.Application.DTOs;
 
 public class VehicleResponseDto
 {
