@@ -1,5 +1,5 @@
 ﻿using LogiSphere.Application.Core.Abstraction;
-using LogiSphere.Application.Core.Result;
+using LogiSphere.Application.Core.Results;
 using LogiSphere.Domain.Enums;
 
 namespace LogiSphere.Application.Features.Staff.Commands.RegisterStaff;
