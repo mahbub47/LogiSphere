@@ -1,6 +1,6 @@
 ﻿using LogiSphere.Application.Core.Errors;
 
-namespace LogiSphere.Application.Core.Result;
+namespace LogiSphere.Application.Core.Results;
 
 /// <summary>
 /// This is Result class, which represents the outcome of an operation. It can either be a success or a failure, and it contains an error message if it's a failure. The generic version of the Result class also contains a value if it's a success. This pattern is often used to avoid exceptions and to provide a clear way to handle errors in a functional programming style.

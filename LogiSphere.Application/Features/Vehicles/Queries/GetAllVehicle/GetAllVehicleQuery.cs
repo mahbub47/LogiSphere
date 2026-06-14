@@ -1,6 +1,6 @@
 ﻿using LogiSphere.Application.Core.Abstraction;
-using LogiSphere.Application.Core.Result;
-using LogiSphere.Application.DTOs;
+using LogiSphere.Application.Core.Results;
+using LogiSphere.Application.Features.Vehicles.DTOs;
 
 namespace LogiSphere.Application.Features.Vehicles.Queries.GetAllVehicle;
 

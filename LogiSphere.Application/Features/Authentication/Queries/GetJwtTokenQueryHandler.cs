@@ -1,5 +1,5 @@
 ﻿using LogiSphere.Application.Core.Abstraction;
-using LogiSphere.Application.Core.Result;
+using LogiSphere.Application.Core.Results;
 using LogiSphere.Application.Interfaces;
 
 namespace LogiSphere.Application.Features.Authentication.Queries;
