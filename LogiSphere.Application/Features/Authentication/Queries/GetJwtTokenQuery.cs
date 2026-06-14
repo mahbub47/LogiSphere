@@ -1,9 +1,9 @@
-﻿using LogiSphere.Application.Core.Result;
-using MediatR;
+﻿using LogiSphere.Application.Core.Abstraction;
+using LogiSphere.Application.Core.Result;
 
 namespace LogiSphere.Application.Features.Authentication.Queries;
 
-public class GetJwtTokenQuery : IRequest<Result<string>>
+public class GetJwtTokenQuery : IQuery<Result<string>>
 {
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

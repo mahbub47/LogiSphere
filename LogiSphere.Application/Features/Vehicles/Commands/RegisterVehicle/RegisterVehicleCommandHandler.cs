@@ -1,11 +1,12 @@
 ﻿using LogiSphere.Application.Contracts;
+using LogiSphere.Application.Core.Abstraction;
 using LogiSphere.Application.Core.Result;
 using LogiSphere.Domain.Entities;
 using MediatR;
 
 namespace LogiSphere.Application.Features.Vehicles.Commands.RegisterVehicle;
 
-internal class RegisterVehicleCommandHandler(IApplicationUnitOfWork unitOfWork) : IRequestHandler<RegisterVehicleCommand, Result<Guid>>
+internal class RegisterVehicleCommandHandler(IApplicationUnitOfWork unitOfWork) : ICommandHandler<RegisterVehicleCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(RegisterVehicleCommand request, CancellationToken cancellationToken)
     {
